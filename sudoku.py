@@ -10,11 +10,10 @@ matrix creation rules:
         6.0-8.2 6.3-8.5 6.6-8.8
 '''
 
-#print(matrix)
-def p_matrix(n):
+def p_matrix(m):
     print("Matrix:")
     for l in range(9):
-        print(n[l])
+        print(m[l])
 
 def f_sq(n):
     '''
@@ -34,25 +33,33 @@ def p_sq(n):
             print(matrix[x,y],end='')
     print('\n')
 
-def fill_sq(n):
+def gen_sq():
     lst = list(range(1,10))
-    numbers = sample(lst,9)
+    return sample(lst,9)
+
+def fill_sq(m,n,sq):
     start=f_sq(n)
     nu=0
     for r in range(3):
         for c in range(3):
             x = start[0]+r
             y = start[1]+c
-            matrix[x][y]=numbers[nu]
+            m[x][y]=sq[nu]
             nu+=1
 
-def main():
-    print("Generate sudoku graph")
-    matrix = [ [0 for x in range(9)] for y in range(9) ]
-    print("empty matrix:")
-    p_matrix(matrix)
-#matrix[0] = sample(lst,9)
+def check_sq(m,n,sq):
+    print("check: n={} sq={}".format(n,sq))
+    return True
 
+def main():
+    print("Generate sudoku matrix")
+    matrix = [ [0 for x in range(9)] for y in range(9) ]
+    for square in range(0,9):
+        seq=gen_sq()
+        while check_sq(matrix,square,seq) is not True:
+            seq=gen_sq()
+        fill_sq(matrix,square,seq)
+    p_matrix(matrix)
 
 if __name__ == "__main__":
     main()
