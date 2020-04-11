@@ -1,4 +1,5 @@
 from random import sample,randint
+from itertools import permutations
 '''
 matrix creation rules:
     every row: uniq numbers from 1 to 9
@@ -47,20 +48,53 @@ def fill_sq(m,n,sq):
             m[x][y]=sq[nu]
             nu+=1
 
-def check_sq(m,n,sq):
-    print("check: n={} sq={}".format(n,sq))
+def check_sq(matrix,sq,seq):
+    start=f_sq(sq)
+    x = start[0]
+    y = start[1]
+    rows = [ [0 for x in range(9)] for y in range(9) ]
+    for i in range(9):
+        rows[i]=[row[i] for row in matrix]
+    #print("check| position: {}:{} seq: {} ".format(x,y,seq))
+    for i in range(9):
+        if i <3 and seq[i] in matrix[x] :
+            return False
+        if i>2 and i<6 and seq[i] in matrix[x+1]:
+            return False
+        if i>5 and seq[i] in matrix[x+2]:
+            return False
+    for i in range(9):
+        if i==0 or i==3 or i==6:
+            if seq[i] in rows[y]:
+                return False
+        if i==1 or i==4 or i==7 :
+            if seq[i] in rows[y+1]:
+                return False
+        if i==2 or i==5 or i==8 : 
+            if seq[i] in rows[y+2]:
+                return False
     return True
 
+def cose():
+    ### troviamo numeri mancanti
+    numbers=[[n for n in range(10) if n not in matrix[i]] for i in range(3) ]
+    perms=[list(permutations(numbers[i])) for i in range(3)]
+    ### generiamo le permutazioni
+    # list(permutations([1.4.9],3))
+    ### iteriamo sulle permutazioni
+
 def main():
+    generated=0
     print("Generate sudoku matrix")
     matrix = [ [0 for x in range(9)] for y in range(9) ]
-    for square in range(0,9):
+    for square in [0,4,8,2,6] : 
         seq=gen_sq()
         while check_sq(matrix,square,seq) is not True:
             seq=gen_sq()
+            generated +=1
         fill_sq(matrix,square,seq)
     p_matrix(matrix)
+    print(generated)
 
 if __name__ == "__main__":
     main()
-
