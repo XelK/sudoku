@@ -81,19 +81,31 @@ def permut(matrix,sq):
     y = start[1]
     numbers=[[n for n in range(10) if n not in matrix[i]] for i in range(3) ]
     perms=[list(permutations(numbers[i])) for i in range(3)]
+    columns=[ [matrix[r][c] for r in range(9)] for c in range(9) ]
     print("all perms: ",perms)
     rows=[ [ matrix[r][c] for r in range(9)] for c in range(9) ]
-    for i in range(3):
-        for tup in perms[i]:
-            pip=0
+    for p in perms:
+        for tup in p:
+            counter=0
+            print("working on tup: {}".format(tup))
             for n in tup:
-            #for n in range(3):
-                print("{} from {} search in row {}:".format(n,tup,rows[y+pip]))
-                if n in rows[y+pip]:
-                    #print("****** REMOVE:  {}:".format(n))
-                    perms[i].remove(tup)
+                if n in columns[3+counter]:
+                    print("REMOVE: {}".format(tup))
+                    p.remove(tup)
                     break
-                pip+=1
+                counter +=1
+
+#    for i in range(3):
+#        for tup in perms[i]:
+#            pip=0
+#            for n in tup:
+#            #for n in range(3):
+#                print("{} from {} search in row {}:".format(n,tup,rows[y+pip]))
+#                if n in rows[y+pip]:
+#                    #print("****** REMOVE:  {}:".format(n))
+#                    perms[i].remove(tup)
+#                    break
+#                pip+=1
     return perms
 
 def main():
