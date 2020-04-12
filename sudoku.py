@@ -75,13 +75,26 @@ def check_sq(matrix,sq,seq):
                 return False
     return True
 
-def cose():
-    ### troviamo numeri mancanti
+def permut(matrix,sq):
+    start=f_sq(sq)
+    print(start)
+    y = start[1]
     numbers=[[n for n in range(10) if n not in matrix[i]] for i in range(3) ]
     perms=[list(permutations(numbers[i])) for i in range(3)]
-    ### generiamo le permutazioni
-    # list(permutations([1.4.9],3))
-    ### iteriamo sulle permutazioni
+    print("all perms: ",perms)
+    rows=[ [ matrix[r][c] for r in range(9)] for c in range(9) ]
+    for i in range(3):
+        for tup in perms[i]:
+            pip=0
+            for n in tup:
+            #for n in range(3):
+                print("{} from {} search in row {}:".format(n,tup,rows[y+pip]))
+                if n in rows[y+pip]:
+                    #print("****** REMOVE:  {}:".format(n))
+                    perms[i].remove(tup)
+                    break
+                pip+=1
+    return perms
 
 def main():
     generated=0
@@ -91,10 +104,9 @@ def main():
         seq=gen_sq()
         while check_sq(matrix,square,seq) is not True:
             seq=gen_sq()
-            generated +=1
         fill_sq(matrix,square,seq)
     p_matrix(matrix)
-    print(generated)
+    print("perms: ",permut(matrix,1))
 
 if __name__ == "__main__":
     main()
